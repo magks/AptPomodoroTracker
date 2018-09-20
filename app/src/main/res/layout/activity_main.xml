@@ -28,7 +28,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/countdownTextView"
             android:layout_width="312dp"
             android:layout_height="128dp"
             android:layout_centerInParent="true"

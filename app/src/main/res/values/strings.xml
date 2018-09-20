@@ -3,4 +3,8 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="timer_sequences_file_key">TimerSequencesFile.dat</string>
+    <string name="default_timer_sequence_key">Default Pomodoro</string>
+    <string name="persistent_app_state">apt_pomodoro_state.dat</string>
+    <string name="state_first_run">state_first_run</string>
 </resources>
