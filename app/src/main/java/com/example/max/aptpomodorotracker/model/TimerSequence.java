@@ -1,26 +1,43 @@
 package com.example.max.aptpomodorotracker;
 
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.PrimaryKey;
 import android.content.Context;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
+import java.util.List;
 
+
+@Entity(tableName = "timer_sequences")
 public class TimerSequence {
+    @Ignore private static final long DEFAULT_TICK = 1000 ;
+    @Ignore private static final long MILLIS_IN_SEC = 1000 ;
+    @Ignore private static final long SECS_IN_MIN = 60 ;
+    @Ignore private static final long MILLIS_IN_MIN = MILLIS_IN_SEC*SECS_IN_MIN;
+    @Ignore private static final long DEFAULT_POMODORO = 25*MILLIS_IN_MIN ; //25 minutes to millis
+    @Ignore private static final long DEFAULT_SHORT_BREAK = 5*MILLIS_IN_MIN; // 5 minutes to millis
+    @Ignore private static final long DEFAULT_LONG_BREAK = 15*MILLIS_IN_MIN; // 5 minutes to millis
 
-    private static final long DEFAULT_TICK = 1000 ;
-    private static final long MILLIS_IN_SEC = 1000 ;
-    private static final long SECS_IN_MIN = 60 ;
-    private static final long MILLIS_IN_MIN = MILLIS_IN_SEC*SECS_IN_MIN;
-    private static final long DEFAULT_POMODORO = 25*MILLIS_IN_MIN ; //25 minutes to millis
-    private static final long DEFAULT_SHORT_BREAK = 5*MILLIS_IN_MIN; // 5 minutes to millis
-    private static final long DEFAULT_LONG_BREAK = 15*MILLIS_IN_MIN; // 5 minutes to millis
+    @PrimaryKey @ColumnInfo(name = "timer_seq_id")
+    public int tsid;
 
+    @ColumnInfo(name = "date_last_used")
+    public Date dateLastUsed;
+
+    @ColumnInfo(name = "timer_name")
+    private String nameKey;
+
+    @Ignore
     private ArrayList<TimedInterval> intervals;
+
     private int numIntervals;
     private int currentInterval;
     private long currentIntervalDurationMillis;
-    private String nameKey;
 
     //default pomodoro:  25/5/15
     public TimerSequence(Context mContext)
@@ -56,6 +73,14 @@ public class TimerSequence {
         numIntervals = intervals.size();
         currentInterval = 0;
         currentIntervalDurationMillis = intervals.get(0).getIntervalDurationMillis();
+    }
+
+    public ArrayList<TimedInterval> getIntervals() {
+        return intervals;
+    }
+
+    public void setIntervals(Collection<TimedInterval> intervals) {
+        this.intervals.addAll(intervals);
     }
 
     public int getCurrentInterval() {
