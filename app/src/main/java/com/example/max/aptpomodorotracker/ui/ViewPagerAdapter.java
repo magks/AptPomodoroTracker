@@ -1,4 +1,4 @@
-package com.example.max.aptpomodorotracker;
+package com.example.max.aptpomodorotracker.ui;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;

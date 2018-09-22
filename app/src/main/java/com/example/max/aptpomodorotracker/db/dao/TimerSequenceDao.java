@@ -1,63 +1,80 @@
-package com.example.max.aptpomodorotracker;
+package com.example.max.aptpomodorotracker.db.dao;
 
+import android.arch.lifecycle.LiveData;
+import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.Query;
 
-import java.util.List;
+import com.example.max.aptpomodorotracker.db.entity.TimedIntervalEntity;
+import com.example.max.aptpomodorotracker.db.entity.TimerSequenceEntity;
+import com.example.max.aptpomodorotracker.model.TimedInterval;
+import com.example.max.aptpomodorotracker.model.TimerSequence;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.Timer;
+
+@Dao
 public abstract class TimerSequenceDao {
 
     @Insert
-    public abstract void _insertTimerSequence(TimerSequence timerSequence);
+    public abstract void _insertTimerSequenceEntity(TimerSequenceEntity TimerSequenceEntity);
 
     @Insert
-    public abstract void _insertTimedIntervalList(List<TimedInterval> timedIntervalList);
+    public abstract void _insertTimedIntervalList(List<TimedIntervalEntity> timedIntervalList);
 
     @Query("SELECT * FROM timer_sequences WHERE timer_seq_id =:tsid")
-    public abstract TimerSequence getTimerSequence(int tsid);
+    public abstract LiveData<TimerSequenceEntity> loadTimerSequenceEntity(int tsid);
+
+    @Query("SELECT * FROM timer_sequences WHERE timer_seq_id =:tsid")
+    public abstract TimerSequenceEntity getTimerSequenceEntity(int tsid);
 
     @Query("SELECT * FROM timed_intervals WHERE tsid =:tsid")
-    public abstract List<TimedInterval> getTimedIntervalList(int tsid);
+    public abstract List<TimedIntervalEntity> getTimedIntervalList(int tsid);
 
 
     @Query("SELECT * FROM timer_sequences")
-    public abstract List<TimerSequence> getAll();
+    public abstract LiveData<List<TimerSequenceEntity>> loadAllTimerSequences();
 
     @Query("SELECT * FROM timer_sequences WHERE timer_seq_id IN (:timerIDs)")
-    public abstract List<TimerSequence> loadAllByIds(int[] timerIDs);
+    public abstract List<TimerSequenceEntity> loadAllByIds(int[] timerIDs);
 
     @Query("SELECT * FROM timer_sequences " +
-            "WHERE timer_name LIKE :timerSequenceName LIMIT 1")
-    public abstract TimerSequence findByName(String timerSequenceName);
+            "WHERE timer_name LIKE :TimerSequenceEntityName LIMIT 1")
+    public abstract TimerSequenceEntity findByName(String TimerSequenceEntityName);
 
 
    // @Query("SELECT * FROM timer_sequences ORDER BY ")
-    //public abstract List<TimerSequence> loadAllByDateLastUsed(int[] timerIDs);
+    //public abstract List<TimerSequenceEntity> loadAllByDateLastUsed(int[] timerIDs);
 
     @Insert
-    public abstract void insertAll(TimerSequence... timerSequences);
+    public abstract void insertAll(TimerSequenceEntity... timerSequenceEntities);
+
+    @Insert
+    public abstract void insertAll(Collection<TimerSequenceEntity> timerSequenceEntities);
 
     @Delete
-    public abstract void delete(TimerSequence timerSequence);
+    public abstract void delete(TimerSequenceEntity TimerSequenceEntity);
 
-    public void insertTimerSequenceWithIntervals(TimerSequence timerSequence)
+    public void insertTimerSequenceEntityWithIntervals(TimerSequenceEntity timerSequenceEntity)
     {
-        List<TimedInterval> intervals = timerSequence.getIntervals();
+        List<TimedIntervalEntity> intervals = timerSequenceEntity.getIntervals();
         for (int i = 0; i < intervals.size(); i++) {
-            intervals.get(i).timerSequenceID = (timerSequence.tsid);
+            intervals.get(i).timerSequenceID = (timerSequenceEntity.tsid);
         }
         _insertTimedIntervalList(intervals);
-        _insertTimerSequence(timerSequence);
+        _insertTimerSequenceEntity(timerSequenceEntity);
 
     }
 
-    public TimerSequence getTImerSequenceWithIntervals(int tsid)
+    public TimerSequenceEntity getTimerSequenceEntityWithIntervals(int tsid)
     {
-        TimerSequence timerSequence = getTimerSequence(tsid);
-        List<TimedInterval> intervals = getTimedIntervalList(tsid);
-        timerSequence.setIntervals(intervals);
-        return timerSequence;
+        TimerSequenceEntity timerSequenceEntity = getTimerSequenceEntity(tsid);
+        List<TimedIntervalEntity> intervals = getTimedIntervalList(tsid);
+        timerSequenceEntity.setIntervals(intervals);
+        return timerSequenceEntity;
 
     }
+
 }

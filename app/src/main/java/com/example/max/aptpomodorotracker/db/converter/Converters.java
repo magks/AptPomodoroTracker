@@ -1,4 +1,4 @@
-package com.example.max.aptpomodorotracker;
+package com.example.max.aptpomodorotracker.db.converter;
 
 import android.arch.persistence.room.TypeConverter;
 

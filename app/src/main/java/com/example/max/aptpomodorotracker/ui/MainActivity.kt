@@ -1,27 +1,37 @@
-package com.example.max.aptpomodorotracker
+package com.example.max.aptpomodorotracker.ui
 
+import android.arch.persistence.room.Room
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_main.*
 import android.support.v4.view.ViewPager
 import android.view.View
+import com.example.max.aptpomodorotracker.*
+import com.example.max.aptpomodorotracker.db.TimerSequenceDatabase
+import com.example.max.aptpomodorotracker.db.entity.TimerSequenceEntity
+import com.example.max.aptpomodorotracker.model.TimerSequence
 
 
 class MainActivity : AppCompatActivity() {
 
-
+    private var timerSeqDB = Room.databaseBuilder(applicationContext,
+            TimerSequenceDatabase::class.java,
+            DATABASE_NAME)
+            .fallbackToDestructiveMigration()
+            .build()
 
     //lateinit var timer : CountDownTimer
     //lateinit var secondsRemaining : Number
     private val padding = "   "
-    private var timerSequence: TimerSequence? = null
+    private var timerSequence: TimerSequenceEntity? = null
 
     override fun onCreate(savedInstanceState: Bundle?)
     {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        /*
         val persistentStatePrefs = getSharedPreferences(getString(R.string.persistent_app_state), Context.MODE_PRIVATE) ?: return
         val defaultValue = resources.getBoolean(R.bool.first_run_default)
         STATE_FIRST_RUN = persistentStatePrefs.getBoolean(getString(R.string.state_first_run), defaultValue)
@@ -32,6 +42,7 @@ class MainActivity : AppCompatActivity() {
                 apply()
             }
         }
+        */
 
         //add tabs to the view pager
         //addTabs(viewPager)
@@ -54,7 +65,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun createPersistentDefaultTimerSequence()
     {
-        timerSequence = TimerSequence(applicationContext)
+        timerSequence = TimerSequenceEntity()
         val sharedPref = getSharedPreferences(getString(R.string.timer_sequences_file_key), Context.MODE_PRIVATE)
         with (sharedPref.edit()) {
             putLong(getString(R.string.default_timer_sequence_key), 0)
@@ -66,7 +77,7 @@ class MainActivity : AppCompatActivity() {
     override fun onStart()
     {
         super.onStart()
-        getMostRecentTimerSequenceOrDefault()
+        //getMostRecentTimerSequenceOrDefault()
     }
 
     fun getMostRecentTimerSequenceOrDefault()
@@ -76,8 +87,8 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun loadTopTimerSequenceFromDisk(): TimerSequence {
-
+    private fun loadTopTimerSequenceFromDisk(): TimerSequenceEntity?{
+            return null
     }
 
     fun updateCountdownTextView()
@@ -124,11 +135,13 @@ class MainActivity : AppCompatActivity() {
             System.loadLibrary("native-lib")
         }
 
+
         var STATE_FIRST_RUN = true
-        var STATE_TIMER = TimedInterval()
-        val STATE_TIMER_SEQUENCE = TimerSequence()
+        //var STATE_TIMER = TimedInterval()
+        //val STATE_TIMER_SEQUENCE = TimerSequence()
         val STATE_CURRENT = "default current session"
         val STATE_HISTORY = "default session history"
+        val DATABASE_NAME = "timer_seq_db"
         var STATE_SECONDS_REMAINING = 0
     }
 }
