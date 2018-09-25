@@ -52,8 +52,14 @@ public class DataRepository {
         return mObservableTimerSequences;
     }
 
+    /*
     public LiveData<TimerSequenceEntity> getTimerSequence(final int tsid) {
         return mDatabase.timerSequenceDao().loadTimerSequenceEntity(tsid);
+    }
+    */
+
+    public LiveData<TimerSequenceEntity> loadTimerSequenceById(final int mTimerId) {
+        return mDatabase.timerSequenceDao().loadTimerSequenceEntity(mTimerId);
     }
 /*
     public LiveData<List<CommentEntity>> loadComments(final int productId) {

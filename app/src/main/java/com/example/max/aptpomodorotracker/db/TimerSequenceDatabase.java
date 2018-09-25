@@ -19,7 +19,7 @@ import com.example.max.aptpomodorotracker.db.entity.TimerSequenceEntity;
 
 import java.util.List;
 
-@Database(entities = {TimerSequenceEntity.class,TimedIntervalEntity.class}, version = 1, exportSchema = false)
+@Database(entities = {TimerSequenceEntity.class,TimedIntervalEntity.class}, version = 1)
 @TypeConverters({Converters.class})
 public abstract class TimerSequenceDatabase extends RoomDatabase {
 

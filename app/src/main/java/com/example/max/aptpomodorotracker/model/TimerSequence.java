@@ -12,4 +12,6 @@ public interface TimerSequence {
     void setNumIntervals(int numIntervals);
     String getNameKey();
     void setNameKey(String nameKey);
+    int getTimerId();
+    int setTimerId();
 }

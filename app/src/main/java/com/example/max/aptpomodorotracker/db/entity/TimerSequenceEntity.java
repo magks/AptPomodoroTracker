@@ -9,6 +9,8 @@ import com.example.max.aptpomodorotracker.R;
 import com.example.max.aptpomodorotracker.model.TimedInterval;
 import com.example.max.aptpomodorotracker.model.TimerSequence;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -26,7 +28,8 @@ public class TimerSequenceEntity {
     @Ignore private static final long DEFAULT_SHORT_BREAK = 5*MILLIS_IN_MIN; // 5 minutes to millis
     @Ignore private static final long DEFAULT_LONG_BREAK = 15*MILLIS_IN_MIN; // 5 minutes to millis
 
-    @PrimaryKey @ColumnInfo(name = "timer_seq_id")
+
+    @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "timer_seq_id")
     public int tsid;
 
     @ColumnInfo(name = "date_last_used")
@@ -46,6 +49,7 @@ public class TimerSequenceEntity {
 
     public TimerSequenceEntity()
     {
+        tsid = 0;
         currentInterval = 0;
         numIntervals = 0;
         currentIntervalDurationMillis = 0;
@@ -78,6 +82,7 @@ public class TimerSequenceEntity {
     //
     public TimerSequenceEntity(String nameKey, Collection<TimedIntervalEntity> timedIntervalCollection)
     {
+        tsid = 0;
         this.nameKey = nameKey;
         intervals.addAll(timedIntervalCollection);
         numIntervals = intervals.size();
@@ -115,6 +120,23 @@ public class TimerSequenceEntity {
 
     public void setNameKey(String nameKey) {
         this.nameKey = nameKey;
+    }
+
+    public int getTimerId() { return tsid; };
+
+
+    public String getTimeRemainingString() {
+        //convert current interval's milliseconds remaining
+        // to a string with format: MM:SS
+        String timeRemainingString = "";
+        long currentIntervalMillis = intervals.get(currentInterval).getIntervalDurationMillis();
+        long totalSeconds = currentIntervalMillis/1000;
+        long minutes = totalSeconds/60;
+        long seconds = totalSeconds%60;
+        timeRemainingString += (minutes < 10 ? "0" : "" ) + String.valueOf(minutes);
+        timeRemainingString += ":";
+        timeRemainingString += (seconds < 10 ? "0" : "" ) + String.valueOf(seconds);
+        return timeRemainingString;
     }
 
 }

@@ -27,7 +27,7 @@ public class TimedIntervalEntity implements TimedInterval {
      *                          {@#onTick(long)} callbacks.
      */
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name= "interval_id")
     public int intervalID;
 
@@ -42,7 +42,7 @@ public class TimedIntervalEntity implements TimedInterval {
 
     // constructor for making a manual interval sequence
     public TimedIntervalEntity(long intervalDurationMillis) {
-
+        intervalID = 0;
         timer = new CountDownTimer(intervalDurationMillis, DEFAULT_TICK) {
             @Override
             public void onTick(long millisUntilFinished) {
