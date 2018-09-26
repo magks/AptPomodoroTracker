@@ -26,11 +26,9 @@ public abstract class TimerSequenceDatabase extends RoomDatabase {
     private static TimerSequenceDatabase sInstance;
 
     @VisibleForTesting
-    public static final String DATABASE_NAME = "basic-sample-db";
+    public static final String DATABASE_NAME = "timer-sequence-db";
 
     public abstract TimerSequenceDao timerSequenceDao();
-
-   // public abstract TimedIntervalDao commentDao();
 
     private final MutableLiveData<Boolean> mIsDatabaseCreated = new MutableLiveData<>();
 
@@ -47,9 +45,7 @@ public abstract class TimerSequenceDatabase extends RoomDatabase {
     }
 
     /**
-     * Build the database. {@link Builder#build()} only sets up the database configuration and
-     * creates a new instance of the database.
-     * The SQLite database is only created when it's accessed for the first time.
+     * Set up database config, and instantiate new DB on filesytem
      */
     private static TimerSequenceDatabase buildDatabase(final Context appContext,
                                              final AppExecutors executors) {
@@ -59,15 +55,9 @@ public abstract class TimerSequenceDatabase extends RoomDatabase {
                     public void onCreate(@NonNull SupportSQLiteDatabase db) {
                         super.onCreate(db);
                         executors.diskIO().execute(() -> {
-                            // Add a delay to simulate a long-running operation
-                            addDelay();
                             // Generate the data for pre-population
                             TimerSequenceDatabase database = TimerSequenceDatabase.getInstance(appContext, executors);
                             TimerSequenceEntity defaultSequence = DataGenerator.generateDefaultPomodoro();
-                          //  List<CommentEntity> comments =
-                             //       DataGenerator.generateCommentsForProducts(products);
-
-                           //insertData(database, products, comments);
                             // notify that the database was created and it's ready to be used
                             database.setDatabaseCreated();
                         });
@@ -75,9 +65,7 @@ public abstract class TimerSequenceDatabase extends RoomDatabase {
                 }).build();
     }
 
-    /**
-     * Check whether the database already exists and expose it via {@link #getDatabaseCreated()}
-     */
+    //Check if DB already exists, expose it if so
     private void updateDatabaseCreated(final Context context) {
         if (context.getDatabasePath(DATABASE_NAME).exists()) {
             setDatabaseCreated();
@@ -92,7 +80,6 @@ public abstract class TimerSequenceDatabase extends RoomDatabase {
                                    final List<TimedIntervalEntity> comments) {
         database.runInTransaction(() -> {
             database.timerSequenceDao().insertAll(timerSequences);
-            //database.commentDao().insertAll(comments);
         });
     }
 
@@ -101,16 +88,9 @@ public abstract class TimerSequenceDatabase extends RoomDatabase {
     {
         database.runInTransaction(() -> {
             database.timerSequenceDao().insertAll(defaultPomodoro);
-            //database.commentDao().insertAll(comments);
         });
     }
 
-    private static void addDelay() {
-        try {
-            Thread.sleep(4000);
-        } catch (InterruptedException ignored) {
-        }
-    }
 
     public LiveData<Boolean> getDatabaseCreated() {
         return mIsDatabaseCreated;

@@ -4,21 +4,19 @@ import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
-import android.databinding.Bindable;
 import android.support.annotation.NonNull;
 
 import com.example.max.aptpomodorotracker.AptPomodoroTracker;
 import com.example.max.aptpomodorotracker.db.entity.TimerSequenceEntity;
-import com.example.max.aptpomodorotracker.model.TimerSequence;
 
 import java.util.List;
 
-public class TimerSessionViewModel extends AndroidViewModel {
+public class TimerSessionViewModel extends AndroidViewModel  {
 
     // MediatorLiveData can observe other LiveData objects and react on their emissions.
     private final MediatorLiveData<List<TimerSequenceEntity>> mObservableTimerSequences;
-    @Bindable
-    public String timeRemaining;
+
+    public LiveData<String> timeRemaining;
 
     public TimerSessionViewModel(@NonNull Application application) {
         super(application);

@@ -1,10 +1,9 @@
 package com.example.max.aptpomodorotracker.ui;
 
 import android.app.Activity;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 public class NavigationToggler extends ActionBarDrawerToggle  {
 
@@ -20,7 +19,7 @@ public class NavigationToggler extends ActionBarDrawerToggle  {
         super(activity, drawerLayout,  openDrawerContentDescRes, closeDrawerContentDescRes);
     }
 
-    /*
+    /* implements DrawerListener ?
     @Override
     public void onDrawerSlide(View drawerView, float slideOffset) {
         // Respond when the drawer's position changes

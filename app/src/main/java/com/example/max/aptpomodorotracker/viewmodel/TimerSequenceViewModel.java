@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 
 import com.example.max.aptpomodorotracker.DataRepository;
 import com.example.max.aptpomodorotracker.db.entity.TimerSequenceEntity;
-import com.example.max.aptpomodorotracker.model.TimerSequence;
 
 public class TimerSequenceViewModel extends AndroidViewModel {
     private LiveData<TimerSequenceEntity> mObservableTimerSequence;

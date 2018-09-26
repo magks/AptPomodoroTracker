@@ -9,6 +9,7 @@ import com.example.max.aptpomodorotracker.db.entity.TimerSequenceEntity;
 
 import java.util.List;
 
+// singleton handling work of database access via DAOs
 public class DataRepository {
 
     private static DataRepository sInstance;
@@ -52,17 +53,9 @@ public class DataRepository {
         return mObservableTimerSequences;
     }
 
-    /*
-    public LiveData<TimerSequenceEntity> getTimerSequence(final int tsid) {
-        return mDatabase.timerSequenceDao().loadTimerSequenceEntity(tsid);
-    }
-    */
 
     public LiveData<TimerSequenceEntity> loadTimerSequenceById(final int mTimerId) {
         return mDatabase.timerSequenceDao().loadTimerSequenceEntity(mTimerId);
     }
-/*
-    public LiveData<List<CommentEntity>> loadComments(final int productId) {
-        return mDatabase.commentDao().loadComments(productId);
-    }*/
+
 }

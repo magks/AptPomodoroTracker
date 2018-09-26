@@ -8,12 +8,9 @@ import android.arch.persistence.room.Query;
 
 import com.example.max.aptpomodorotracker.db.entity.TimedIntervalEntity;
 import com.example.max.aptpomodorotracker.db.entity.TimerSequenceEntity;
-import com.example.max.aptpomodorotracker.model.TimedInterval;
-import com.example.max.aptpomodorotracker.model.TimerSequence;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Timer;
 
 @Dao
 public abstract class TimerSequenceDao {

@@ -3,8 +3,9 @@ package com.example.max.aptpomodorotracker;
 import android.app.Application;
 
 import com.example.max.aptpomodorotracker.db.TimerSequenceDatabase;
-import com.example.max.aptpomodorotracker.model.TimerSequence;
 
+
+// Used to access database/repo singletons
 public class AptPomodoroTracker extends Application {
         private AppExecutors mAppExecutors;
 

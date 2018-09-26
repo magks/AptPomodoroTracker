@@ -1,7 +1,6 @@
 package com.example.max.aptpomodorotracker.model;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 public interface TimerSequence {
     ArrayList<TimedInterval> getIntervals();

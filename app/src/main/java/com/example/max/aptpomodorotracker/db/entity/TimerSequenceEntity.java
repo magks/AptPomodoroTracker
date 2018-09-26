@@ -5,11 +5,7 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 
-import com.example.max.aptpomodorotracker.R;
-import com.example.max.aptpomodorotracker.model.TimedInterval;
-import com.example.max.aptpomodorotracker.model.TimerSequence;
-
-import org.jetbrains.annotations.Nullable;
+import com.example.max.aptpomodorotracker.Constants;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,17 +13,6 @@ import java.util.Date;
 
 @Entity(tableName = "timer_sequences")
 public class TimerSequenceEntity {
-
-
-    @Ignore
-    private static final long DEFAULT_TICK = 1000 ;
-    @Ignore private static final long MILLIS_IN_SEC = 1000 ;
-    @Ignore private static final long SECS_IN_MIN = 60 ;
-    @Ignore private static final long MILLIS_IN_MIN = MILLIS_IN_SEC*SECS_IN_MIN;
-    @Ignore private static final long DEFAULT_POMODORO = 25*MILLIS_IN_MIN ; //25 minutes to millis
-    @Ignore private static final long DEFAULT_SHORT_BREAK = 5*MILLIS_IN_MIN; // 5 minutes to millis
-    @Ignore private static final long DEFAULT_LONG_BREAK = 15*MILLIS_IN_MIN; // 5 minutes to millis
-
 
     @PrimaryKey(autoGenerate = true) @ColumnInfo(name = "timer_seq_id")
     public int tsid;
@@ -46,36 +31,25 @@ public class TimerSequenceEntity {
     public long currentIntervalDurationMillis;
 
     //default pomodoro:  25/5/15
-
     public TimerSequenceEntity()
     {
         tsid = 0;
         currentInterval = 0;
         numIntervals = 0;
         currentIntervalDurationMillis = 0;
-        /*
-        nameKey = mContext.getString(R.string.default_timer_sequence_key);
-        intervals = new ArrayList<>();
-        for (int i = 0; i < 3; i++)
-            addPomodoroShortBreakIntervals();
-        addPomodoroLongBreakIntervals();
-        numIntervals = intervals.size();
-        currentInterval = 0;
-        currentIntervalDurationMillis = DEFAULT_POMODORO;
-        */
     }
 
     public void addPomodoroShortBreakIntervals()
     {
-        intervals.add(new TimedIntervalEntity(DEFAULT_POMODORO));
-        intervals.add(new TimedIntervalEntity(DEFAULT_SHORT_BREAK));
+        intervals.add(new TimedIntervalEntity(Constants.DEFAULT_POMODORO));
+        intervals.add(new TimedIntervalEntity(Constants.DEFAULT_SHORT_BREAK));
         ++numIntervals;
     }
 
     public void addPomodoroLongBreakIntervals()
     {
-        intervals.add(new TimedIntervalEntity(DEFAULT_POMODORO));
-        intervals.add(new TimedIntervalEntity(DEFAULT_LONG_BREAK));
+        intervals.add(new TimedIntervalEntity(Constants.DEFAULT_POMODORO));
+        intervals.add(new TimedIntervalEntity(Constants.DEFAULT_LONG_BREAK));
         ++numIntervals;
     }
 

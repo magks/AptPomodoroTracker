@@ -3,21 +3,20 @@ package com.example.max.aptpomodorotracker.ui
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import kotlinx.android.synthetic.main.timer_session_activity.*
-
 import android.support.v4.view.ViewPager
-import android.view.View
-import com.example.max.aptpomodorotracker.*
-import com.example.max.aptpomodorotracker.db.entity.TimerSequenceEntity
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import com.example.max.aptpomodorotracker.R
 import com.example.max.aptpomodorotracker.databinding.TimerSessionActivityBinding
+import com.example.max.aptpomodorotracker.db.entity.TimerSequenceEntity
 import com.example.max.aptpomodorotracker.viewmodel.TimerSessionViewModel
+import kotlinx.android.synthetic.main.timer_session_activity.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -65,7 +64,7 @@ class MainActivity : AppCompatActivity() {
         // Update the list when the data changes
         viewModel.timerSequences.observe(this, Observer<List<TimerSequenceEntity>> {
                     if (it != null) {
-                        viewModel.timeRemaining = it[0].getTimeRemainingString();
+                        viewModel.timeRemaining= it[0].getTimeRemainingString();
                     } else {
                         mBinding.timeRemaining = "--:--"
                     }

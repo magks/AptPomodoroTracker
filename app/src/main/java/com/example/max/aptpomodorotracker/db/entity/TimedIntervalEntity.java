@@ -6,18 +6,10 @@ import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.PrimaryKey;
 import android.os.CountDownTimer;
 
+import com.example.max.aptpomodorotracker.Constants;
 import com.example.max.aptpomodorotracker.model.TimedInterval;
-
 @Entity(tableName = "timed_intervals")
 public class TimedIntervalEntity implements TimedInterval {
-
-    @Ignore private static final long DEFAULT_TICK = 1000 ;
-    @Ignore private static final long MILLIS_IN_SEC = 1000 ;
-    @Ignore private static final long SECS_IN_MIN = 60 ;
-    @Ignore private static final long MILLIS_IN_MIN = MILLIS_IN_SEC*SECS_IN_MIN;
-    @Ignore private static final long DEFAULT_POMODORO = 25*MILLIS_IN_MIN ; //25 minutes to millis
-    @Ignore private static final long DEFAULT_SHORT_BREAK = 5*MILLIS_IN_MIN; // 5 minutes to millis
-    @Ignore private static final long DEFAULT_LONG_BREAK = 15*MILLIS_IN_MIN; // 5 minutes to millis
 
     /**
      *  millisInFuture    The number of millis in the future from the call
@@ -43,7 +35,7 @@ public class TimedIntervalEntity implements TimedInterval {
     // constructor for making a manual interval sequence
     public TimedIntervalEntity(long intervalDurationMillis) {
         intervalID = 0;
-        timer = new CountDownTimer(intervalDurationMillis, DEFAULT_TICK) {
+        timer = new CountDownTimer(intervalDurationMillis, Constants.DEFAULT_TICK) {
             @Override
             public void onTick(long millisUntilFinished) {
                 intervalRemaining = millisUntilFinished;
